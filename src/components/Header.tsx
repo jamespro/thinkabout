@@ -1,4 +1,5 @@
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 interface ChildComponentProps {
   headerText?: string;
@@ -11,31 +12,48 @@ export const Header: React.FC<ChildComponentProps> = ({ headerText }) => {
     <header>
       <div className="navbar bg-primary text-primary-content">
         <div className="flex-1 pl-5 text-3xl font-bold">
-          {sessionData?.user?.name ? `${sessionData.user.name}` : ""}
+          <Link href="/">thinkabout</Link>
         </div>
         <div className="flex-none gap-2">
           <div className="dropdown-end dropdown">
-            {sessionData?.user ? (
-              <label
-                tabIndex={0}
-                className="btn-ghost btn-circle avatar btn"
-                onClick={() => void signOut()}
-              >
-                <div className="w-10 rounded-full">
-                  <img
-                    src={sessionData?.user?.image ?? ""}
-                    alt={sessionData?.user?.name ?? ""}
-                  />
-                </div>
-              </label>
-            ) : (
-              <button
-                className="btn-ghost rounded-btn btn"
-                onClick={() => void signIn()}
-              >
-                Sign in
-              </button>
-            )}
+            <div className="flex items-center">
+              {sessionData?.user ? (
+                <button
+                  className="btn-ghost rounded-btn btn mr-4"
+                  onClick={() => void signOut()}
+                >
+                  Sign out
+                </button>
+              ) : (
+                <div></div>
+              )}
+              <div className="mr-2 font-bold">
+                {/* TODO: Make this link to your main page, with nothing selected--or profile/settings page */}
+                <Link href="/">
+                  {sessionData?.user?.name ? `${sessionData.user.name}` : ""}
+                </Link>
+              </div>
+              {sessionData?.user ? (
+                <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
+                  <div className="w-10 rounded-full">
+                    {/* TODO: Make this link to your main page, with nothing selected--or profile/settings page */}
+                    <Link href="/">
+                      <img
+                        src={sessionData?.user?.image ?? ""}
+                        alt={sessionData?.user?.name ?? ""}
+                      />
+                    </Link>
+                  </div>
+                </label>
+              ) : (
+                <button
+                  className="btn-ghost rounded-btn btn"
+                  onClick={() => void signIn()}
+                >
+                  Sign in
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
