@@ -29,7 +29,6 @@ export const noteRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(({ ctx, input }) => {
-      console.log(ctx, input);
       return ctx.prisma.note.delete({
         where: {
           id: input.id,

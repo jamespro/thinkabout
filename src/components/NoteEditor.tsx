@@ -27,9 +27,9 @@ export const NoteEditor = ({
         <CodeMirror
           value={code}
           width="500px"
-          height="30vh"
+          height="20vh"
           minWidth="100%"
-          minHeight="30vh"
+          minHeight="20vh"
           extensions={[
             markdown({ base: markdownLanguage, codeLanguages: languages }),
           ]}
@@ -48,7 +48,7 @@ export const NoteEditor = ({
             setTitle("");
           }}
           className="btn-primary btn"
-          disabled={title.trim().length === 0 || code.trim().length === 0}
+          disabled={title.trim().length === 0}
         >
           Save
         </button>
