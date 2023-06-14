@@ -42,11 +42,19 @@ const Content: React.FC = () => {
       enabled: sessionData?.user !== undefined,
       onSuccess: (data) => {
         setSelectedTopic(selectedTopic ?? data[0] ?? null);
+        // maybe should update the contents of the right side of the page also? Or does that get triggered when this is updated?
       },
     }
   );
 
   const createTopic = api.topic.create.useMutation({
+    onSuccess: () => {
+      void refetchTopics();
+      //TODO: and after you create a new one, it should change the content part of the page to be that Topic (header, no notes yet, with form)
+    },
+  });
+
+  const deleteTopic = api.topic.delete.useMutation({
     onSuccess: () => {
       void refetchTopics();
     },
@@ -107,6 +115,24 @@ const Content: React.FC = () => {
         />
       </div>
       <div className="col-span-3">
+        {selectedTopic && (
+          <div className="flex flex-1">
+            <div>
+              <span className="text-3xl">{selectedTopic.title}</span>
+            </div>
+            {!notes?.length && (
+              <div
+                className="ml-20 text-right text-sm text-red-600"
+                onClick={() =>
+                  void deleteTopic.mutate({ id: selectedTopic.id })
+                }
+              >
+                ❌
+              </div>
+            )}
+          </div>
+        )}
+
         <div>
           {notes?.map((note) => (
             <div key={note.id} className="mt-5">
