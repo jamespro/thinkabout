@@ -123,9 +123,11 @@ const Content: React.FC = () => {
             {!notes?.length && (
               <div
                 className="ml-20 text-right text-sm text-red-600"
-                onClick={() =>
-                  void deleteTopic.mutate({ id: selectedTopic.id })
-                }
+                onClick={() => {
+                  void deleteTopic.mutate({ id: selectedTopic.id });
+                  //I think this worked to reset the content of the page after you delete
+                  setSelectedTopic(null);
+                }}
               >
                 ❌
               </div>
@@ -143,16 +145,17 @@ const Content: React.FC = () => {
             </div>
           ))}
         </div>
-
-        <NoteEditor
-          onSave={({ title, content }) => {
-            void createNote.mutate({
-              title,
-              content,
-              topicId: selectedTopic?.id ?? "",
-            });
-          }}
-        />
+        {selectedTopic && (
+          <NoteEditor
+            onSave={({ title, content }) => {
+              void createNote.mutate({
+                title,
+                content,
+                topicId: selectedTopic?.id ?? "",
+              });
+            }}
+          />
+        )}
       </div>
     </div>
   );
