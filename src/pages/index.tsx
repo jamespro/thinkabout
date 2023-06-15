@@ -1,27 +1,66 @@
-import { useState } from "react";
 import { type NextPage } from "next";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
+import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
 
-import { api, type RouterOutputs } from "~/utils/api";
-import { Header } from "~/components/Header";
-import { NoteEditor } from "~/components/NoteEditor";
-import { NoteCard } from "~/components/NoteCard";
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
+  const hello = api.example.hello.useQuery({ text: "!" });
+
   return (
     <>
       <Head>
-        <title>ThinkAbout</title>
+        <title>thinkabout!</title>
         <meta
           name="description"
-          content="ThinkAbout: Be prompted with ideas to consider"
+          content="thinkabout: Think like you've never thunk before"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Header />
-        <Content />
+      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
+          <h1 className="text-2xl font-extrabold tracking-tight text-white sm:text-[5rem]">
+            <span className="text-[hsl(280,100%,70%)]">thinkabout</span>
+          </h1>
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-2xl text-white">
+              {hello.data ? hello.data.greeting : "One sec..."}
+            </p>
+            <AuthShowcase />
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href="./dashboard"
+            >
+              <h3 className="text-2xl font-bold">What is this?</h3>
+              <div className="text-lg">
+                <p>
+                  Get messages inspiring your creativity, your productivity, or
+                  just reminders to stretch-- it's all up to you!
+                </p>
+                <p>
+                  (There will be a demo here, but right now this takes you to
+                  your main page.)
+                </p>
+              </div>
+            </Link>
+            <Link
+              className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
+              href="./dashboard"
+            >
+              <h3 className="text-2xl font-bold">How does it work?</h3>
+              <div className="text-lg">
+                <p>Log in, then manage your own Topics and Notes.</p>
+                <p>
+                  (An FAQ will be here, but right now this takes you to your
+                  main page.)
+                </p>
+              </div>
+            </Link>
+          </div>
+        </div>
       </main>
     </>
   );
@@ -29,134 +68,31 @@ const Home: NextPage = () => {
 
 export default Home;
 
-type Topic = RouterOutputs["topic"]["getAll"][0];
-
-const Content: React.FC = () => {
+const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-
-  const { data: topics, refetch: refetchTopics } = api.topic.getAll.useQuery(
+  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
-    {
-      enabled: sessionData?.user !== undefined,
-      onSuccess: (data) => {
-        setSelectedTopic(selectedTopic ?? data[0] ?? null);
-        // maybe should update the contents of the right side of the page also? Or does that get triggered when this is updated?
-      },
-    }
+    { enabled: sessionData?.user !== undefined }
   );
-
-  const createTopic = api.topic.create.useMutation({
-    onSuccess: () => {
-      void refetchTopics();
-      //TODO: and after you create a new one, it should change the content part of the page to be that Topic (header, no notes yet, with form)
-    },
-  });
-
-  const deleteTopic = api.topic.delete.useMutation({
-    onSuccess: () => {
-      void refetchTopics();
-    },
-  });
-
-  const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
-    {
-      topicId: selectedTopic?.id ?? "",
-    },
-    {
-      enabled: sessionData?.user !== undefined && selectedTopic !== null,
-    }
-  );
-
-  const createNote = api.note.create.useMutation({
-    onSuccess: () => {
-      void refetchNotes();
-    },
-  });
-
-  const deleteNote = api.note.delete.useMutation({
-    onSuccess: () => {
-      void refetchNotes();
-    },
-  });
 
   return (
-    <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
-      <div className="px-2">
-        <ul className="menu rounded-box w-56 bg-base-100 p-2">
-          {topics?.map((topic) => (
-            <li key={topic.id}>
-              <a
-                href="#"
-                onClick={(evt) => {
-                  evt.preventDefault();
-                  setSelectedTopic(topic);
-                }}
-              >
-                {topic.title}
-              </a>
-            </li>
-          ))}
-        </ul>
-        <div className="divider"></div>
-        <input
-          type="text"
-          placeholder="New Topic"
-          className="input-bordered input input-sm w-full"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              createTopic.mutate({
-                title: e.currentTarget.value,
-              });
-              e.currentTarget.value = "";
-            }
-          }}
-        />
-      </div>
-      <div className="col-span-3">
-        {selectedTopic && (
-          <div className="flex flex-1">
-            <div>
-              <span className="text-3xl">{selectedTopic.title}</span>
-            </div>
-            {!notes?.length && (
-              <div
-                className="ml-20 text-right text-sm text-red-600"
-                onClick={() => {
-                  void deleteTopic.mutate({ id: selectedTopic.id });
-                  //I think this worked to reset the content of the page after you delete
-                  setSelectedTopic(null);
-                }}
-              >
-                ❌
-              </div>
-            )}
-          </div>
+    <div className="flex flex-col items-center justify-center gap-4">
+      <p className="text-center text-2xl text-white">
+        {sessionData && (
+          <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
         )}
-
-        <div>
-          {notes?.map((note) => (
-            <div key={note.id} className="mt-5">
-              <NoteCard
-                note={note}
-                onDelete={() => void deleteNote.mutate({ id: note.id })}
-              />
-            </div>
-          ))}
-        </div>
-        {selectedTopic && (
-          <NoteEditor
-            onSave={({ title, content }) => {
-              void createNote.mutate({
-                title,
-                content,
-                topicId: selectedTopic?.id ?? "",
-              });
-            }}
-          />
-        )}
-      </div>
+        {secretMessage && <span> - {secretMessage}</span>}
+      </p>
+      <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
+        {sessionData && <Link href="dashboard">Go to your Dashboard →</Link>}
+      </button>
+      <button
+        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+        onClick={sessionData ? () => void signOut() : () => void signIn()}
+      >
+        {sessionData ? "Sign out" : "Sign in"}
+      </button>
     </div>
   );
 };

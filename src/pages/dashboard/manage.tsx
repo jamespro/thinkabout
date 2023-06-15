@@ -12,14 +12,14 @@ const Notes: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Manage Thinkabouts</title>
+        <title>Manage Your Notes</title>
         <meta
           name="description"
           content="Thinkabouts: Create, Read, Update, Delete"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardHeader headerText={"Manage Thinkabouts"} />
+      <DashboardHeader headerText={"Manage Your Notes"} />
       <main>
         <Content />
       </main>
