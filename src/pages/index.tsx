@@ -38,7 +38,7 @@ const Home: NextPage = () => {
               <div className="text-lg">
                 <p>
                   Get messages inspiring your creativity, your productivity, or
-                  just reminders to stretch-- it's all up to you!
+                  just reminders to stretch-- it&lsquo;s all up to you!
                 </p>
                 <p>
                   (There will be a demo here, but right now this takes you to
