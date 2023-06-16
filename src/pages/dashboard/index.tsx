@@ -23,7 +23,7 @@ const Profile: NextPage = () => {
           <ul>
             <li>
               <Link href="dashboard/manage" className="underline">
-                Manage notes
+                Manage prompts
               </Link>
             </li>
           </ul>

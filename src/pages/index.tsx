@@ -52,7 +52,7 @@ const Home: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">How does it work?</h3>
               <div className="text-lg">
-                <p>Log in, then manage your own Topics and Notes.</p>
+                <p>Log in, then manage your own Categories and Prompts.</p>
                 <p>
                   (An FAQ will be here, but right now this takes you to your
                   main page.)

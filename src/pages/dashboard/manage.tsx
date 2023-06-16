@@ -12,14 +12,14 @@ const Notes: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Manage Your Notes</title>
+        <title>Manage Your Prompts</title>
         <meta
           name="description"
-          content="Thinkabouts: Create, Read, Update, Delete"
+          content="Prompts: Create, Read, Update, Delete"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardHeader headerText={"Manage Your Notes"} />
+      <DashboardHeader headerText={"Manage Your Prompts"} />
       <main>
         <Content />
       </main>
@@ -99,7 +99,7 @@ const Content: React.FC = () => {
         <div className="divider"></div>
         <input
           type="text"
-          placeholder="New Topic"
+          placeholder="Add New Category"
           className="input-bordered input input-sm w-full"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
