@@ -23,12 +23,12 @@ const Profile: NextPage = () => {
           <ul>
             <li>
               <Link href="dashboard/view" className="underline">
-                View prompts
+                View Cards
               </Link>
             </li>
             <li>
               <Link href="dashboard/manage" className="underline">
-                Manage prompts
+                Manage Cards
               </Link>
             </li>
           </ul>

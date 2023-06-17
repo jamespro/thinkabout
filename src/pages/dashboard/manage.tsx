@@ -12,14 +12,14 @@ const Manage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Manage Your Prompts</title>
+        <title>Manage Your Cards</title>
         <meta
           name="description"
-          content="Prompts: Create, Read, Update, Delete"
+          content="Cards: Create, Read, Update, Delete"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardHeader headerText={"Manage Your Prompts"} />
+      <DashboardHeader headerText={"Manage Your Cards"} />
       <main>
         <Content />
       </main>

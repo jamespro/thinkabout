@@ -52,7 +52,7 @@ const Home: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">How does it work?</h3>
               <div className="text-lg">
-                <p>Log in, then manage your own Categories and Prompts.</p>
+                <p>Log in, then manage your own Categories and Cards.</p>
                 <p>
                   (An FAQ will be here, but right now this takes you to your
                   main page.)
@@ -90,13 +90,13 @@ const AuthShowcase: React.FC = () => {
             <Link href="dashboard">Go to your Dashboard →</Link>
           </button>
           <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/manage">Manage Prompts →</Link>
+            <Link href="dashboard/manage">Manage Cards →</Link>
           </button>
           <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/view">View Prompts →</Link>
+            <Link href="dashboard/view">View Cards →</Link>
           </button>
           <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/view/random">Show me a Prompt →</Link>
+            <Link href="dashboard/view/random">Show me a Card →</Link>
           </button>
           <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
             <Link href="dashboard/view/play">Play my default Category →</Link>

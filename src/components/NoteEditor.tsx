@@ -18,7 +18,7 @@ export const NoteEditor = ({
         <h2 className="card-title">
           <input
             type="text"
-            placeholder="Prompt title"
+            placeholder="Card title"
             className="input-primary input input-lg w-full font-bold"
             value={title}
             onChange={(e) => setTitle(e.currentTarget.value)}

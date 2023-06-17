@@ -14,11 +14,11 @@ const ViewTopicsPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>View Your Prompts</title>
-        <meta name="description" content="Prompts: View" />
+        <title>View Your Cards</title>
+        <meta name="description" content="Cards: View" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardHeader headerText={"View Your Prompts"} />
+      <DashboardHeader headerText={"View Your Cards"} />
       <main>
         <Content />
       </main>
@@ -39,7 +39,7 @@ const something = () => {
           Category title{" "}
           <ul>
             <li>
-              Button/Icon: show one prompt (pick one card): it will show on this
+              Button/Icon: show one card (pick one card): it will show on this
               screen on the right in the body of the page
             </li>
             <li>
@@ -77,15 +77,9 @@ const Content: React.FC = () => {
     }
   );
 
-  const deleteNote = api.note.delete.useMutation({
-    onSuccess: () => {
-      void refetchNotes();
-    },
-  });
-
   return (
-    <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
-      <div className="px-2">
+    <div className="mx-5 mt-5 grid grid-cols-5 gap-2">
+      <div className="col-span-2 px-2">
         <ul className="menu rounded-box w-56 bg-base-100 p-2">
           {topics?.map((topic) => (
             <li key={topic.id}>
@@ -96,7 +90,7 @@ const Content: React.FC = () => {
                   setSelectedTopic(topic);
                 }}
               >
-                {topic.title}
+                {topic.title} (Pick Card) (Play All)
               </a>
             </li>
           ))}
@@ -115,10 +109,7 @@ const Content: React.FC = () => {
         <div>
           {notes?.map((note) => (
             <div key={note.id} className="mt-5">
-              <NoteCard
-                note={note}
-                onDelete={() => void deleteNote.mutate({ id: note.id })}
-              />
+              {note.title}
             </div>
           ))}
         </div>
