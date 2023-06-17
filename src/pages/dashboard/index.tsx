@@ -22,6 +22,11 @@ const Profile: NextPage = () => {
         <div className="m-6">
           <ul>
             <li>
+              <Link href="dashboard/view" className="underline">
+                View prompts
+              </Link>
+            </li>
+            <li>
               <Link href="dashboard/manage" className="underline">
                 Manage prompts
               </Link>

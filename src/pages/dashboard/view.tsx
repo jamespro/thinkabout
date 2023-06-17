@@ -1,3 +1,5 @@
+//temporarily here and we will move it later
+//view notes of a topic
 import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
@@ -8,18 +10,15 @@ import { DashboardHeader } from "~/components/DashboardHeader";
 import { NoteEditor } from "~/components/NoteEditor";
 import { NoteCard } from "~/components/NoteCard";
 
-const Manage: NextPage = () => {
+const ViewTopicsPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Manage Your Prompts</title>
-        <meta
-          name="description"
-          content="Prompts: Create, Read, Update, Delete"
-        />
+        <title>View Your Prompts</title>
+        <meta name="description" content="Prompts: View" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardHeader headerText={"Manage Your Prompts"} />
+      <DashboardHeader headerText={"View Your Prompts"} />
       <main>
         <Content />
       </main>
@@ -27,9 +26,33 @@ const Manage: NextPage = () => {
   );
 };
 
-export default Manage;
+export default ViewTopicsPage;
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
+
+const something = () => {
+  return (
+    <>
+      <div>List of Categories</div>
+      <ul>
+        <li>
+          Category title{" "}
+          <ul>
+            <li>
+              Button/Icon: show one prompt (pick one card): it will show on this
+              screen on the right in the body of the page
+            </li>
+            <li>
+              Button/Icon: auto-play this category (pick one card then it
+              refreshes every 21 minutes) This will also show on this page, on
+              the right
+            </li>
+          </ul>{" "}
+        </li>
+      </ul>
+    </>
+  );
+};
 
 const Content: React.FC = () => {
   const { data: sessionData } = useSession();
@@ -45,18 +68,6 @@ const Content: React.FC = () => {
     },
   });
 
-  const createTopic = api.topic.create.useMutation({
-    onSuccess: () => {
-      void refetchTopics();
-    },
-  });
-
-  const deleteTopic = api.topic.delete.useMutation({
-    onSuccess: () => {
-      void refetchTopics();
-    },
-  });
-
   const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
     {
       topicId: selectedTopic?.id ?? "",
@@ -65,12 +76,6 @@ const Content: React.FC = () => {
       enabled: sessionData?.user !== undefined && selectedTopic !== null,
     }
   );
-
-  const createNote = api.note.create.useMutation({
-    onSuccess: () => {
-      void refetchNotes();
-    },
-  });
 
   const deleteNote = api.note.delete.useMutation({
     onSuccess: () => {
@@ -97,19 +102,6 @@ const Content: React.FC = () => {
           ))}
         </ul>
         <div className="divider"></div>
-        <input
-          type="text"
-          placeholder="Add New Category"
-          className="input-bordered input input-sm w-full"
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              createTopic.mutate({
-                title: e.currentTarget.value,
-              });
-              e.currentTarget.value = "";
-            }
-          }}
-        />
       </div>
       <div className="col-span-3">
         {selectedTopic && (
@@ -117,18 +109,6 @@ const Content: React.FC = () => {
             <div>
               <span className="text-3xl">{selectedTopic.title}</span>
             </div>
-            {!notes?.length && (
-              <div
-                className="ml-20 text-right text-sm text-red-600"
-                onClick={() => {
-                  void deleteTopic.mutate({ id: selectedTopic.id });
-                  //I think this worked to reset the content of the page after you delete
-                  setSelectedTopic(null);
-                }}
-              >
-                ❌
-              </div>
-            )}
           </div>
         )}
 
@@ -142,16 +122,6 @@ const Content: React.FC = () => {
             </div>
           ))}
         </div>
-
-        <NoteEditor
-          onSave={({ title, content }) => {
-            void createNote.mutate({
-              title,
-              content,
-              topicId: selectedTopic?.id ?? "",
-            });
-          }}
-        />
       </div>
     </div>
   );
