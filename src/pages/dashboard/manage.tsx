@@ -12,14 +12,14 @@ const Manage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Manage Your Cards</title>
+        <title>Manage Your Decks</title>
         <meta
           name="description"
-          content="Cards: Create, Read, Update, Delete"
+          content="Decks: Create, Read, Update, Delete"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <DashboardHeader headerText={"Manage Your Cards"} />
+      <DashboardHeader headerText={"Manage Your Decks"} />
       <main>
         <Content />
       </main>
@@ -99,7 +99,7 @@ const Content: React.FC = () => {
         <div className="divider"></div>
         <input
           type="text"
-          placeholder="Add New Category"
+          placeholder="Add New Deck"
           className="input-bordered input input-sm w-full"
           onKeyDown={(e) => {
             if (e.key === "Enter") {

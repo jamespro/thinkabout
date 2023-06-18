@@ -33,19 +33,18 @@ type Topic = RouterOutputs["topic"]["getAll"][0];
 const something = () => {
   return (
     <>
-      <div>List of Categories</div>
+      <div>List of Decks</div>
       <ul>
         <li>
-          Category title{" "}
+          Deck title{" "}
           <ul>
             <li>
               Button/Icon: show one card (pick one card): it will show on this
               screen on the right in the body of the page
             </li>
             <li>
-              Button/Icon: auto-play this category (pick one card then it
-              refreshes every 21 minutes) This will also show on this page, on
-              the right
+              Button/Icon: auto-play this deck (pick one card then it refreshes
+              every 21 minutes) This will also show on this page, on the right
             </li>
           </ul>{" "}
         </li>
