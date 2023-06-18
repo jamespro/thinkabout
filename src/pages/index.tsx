@@ -76,6 +76,15 @@ const AuthShowcase: React.FC = () => {
     { enabled: sessionData?.user !== undefined }
   );
 
+  const { data: defaultTopic } = api.topic.getDefault.useQuery(
+    undefined, // no input
+    { enabled: sessionData?.user !== undefined }
+  );
+
+  const { data: defaultNote } = api.note.getOne.useQuery({
+    topicId: defaultTopic?.id || "",
+  });
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <p className="text-center text-2xl text-white">
@@ -83,6 +92,7 @@ const AuthShowcase: React.FC = () => {
           <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
         )}
         {secretMessage && <span> - {secretMessage}</span>}
+        {defaultNote && <span>{defaultNote.title}</span>}
       </p>
       {sessionData && (
         <div className="flex flex-col items-center justify-center gap-4">

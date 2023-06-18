@@ -12,6 +12,17 @@ export const noteRouter = createTRPCRouter({
       });
     }),
 
+  getOne: protectedProcedure
+    .input(z.object({ topicId: z.string() }))
+    .query(({ ctx, input }) => {
+      //TODO: could have this find a random one?
+      return ctx.prisma.note.findFirst({
+        where: {
+          topicId: input.topicId,
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({ title: z.string(), content: z.string(), topicId: z.string() })
