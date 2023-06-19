@@ -32,6 +32,16 @@ export const NoteCard = ({
           </div>
         </div>
         <div className="card-actions mx-2 flex justify-end">
+          {/* I want this to load the current note's title and contents in the NoteEditor in the page */}
+          {/* or it could load a new NoteEditor right in this component? */}
+          {/* or make an new component just for upsert and load that one right in this component?  */}
+          {/* or load upsert component elsewhere on the page? */}
+          {/* Or on a new separate Update page? */}
+          {/* <button className="btn-warning btn-xs btn px-5" onClick={}>
+            Edit
+          </button> */}
+          {/* TODO: ACTUALLY HOW ABOUT JUST A MODAL THAT POPS UP FROM manage.tsx?? EXCEPT manage.tsx loads this component... so EDIT button will need to be in here.  */}
+
           <button className="btn-warning btn-xs btn px-5" onClick={onDelete}>
             Delete
           </button>

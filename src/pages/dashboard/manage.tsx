@@ -144,6 +144,7 @@ const Content: React.FC = () => {
         </div>
 
         <NoteEditor
+          // NOTE: Should I just change createNote to do an "upsert" so I can use it for update also?
           onSave={({ title, content }) => {
             void createNote.mutate({
               title,
