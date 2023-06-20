@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+// import { useState } from "react";
+// import { useSession } from "next-auth/react";
 
 import { DashboardHeader } from "~/components/DashboardHeader";
 

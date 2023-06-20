@@ -23,6 +23,16 @@ export const noteRouter = createTRPCRouter({
       });
     }),
 
+  getCount: protectedProcedure
+    .input(z.object({ topicId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.note.count({
+        where: {
+          topicId: input.topicId,
+        },
+      });
+    }),
+
   create: protectedProcedure
     .input(
       z.object({ title: z.string(), content: z.string(), topicId: z.string() })

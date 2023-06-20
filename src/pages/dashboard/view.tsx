@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 
 import { api, type RouterOutputs } from "~/utils/api";
 import { DashboardHeader } from "~/components/DashboardHeader";
-import { NoteEditor } from "~/components/NoteEditor";
 import { NoteCard } from "~/components/NoteCard";
 
 const ViewTopicsPage: NextPage = () => {
@@ -29,6 +28,7 @@ const ViewTopicsPage: NextPage = () => {
 export default ViewTopicsPage;
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
+type Note = RouterOutputs["note"]["getAll"][0];
 
 const something = () => {
   return (
@@ -57,6 +57,7 @@ const Content: React.FC = () => {
   const { data: sessionData } = useSession();
 
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  const [selectedCard, setSelectedCard] = useState<Note | null>(null);
 
   const { data: topics, refetch: refetchTopics } = api.topic.getAll.useQuery<
     Topic[]
@@ -75,10 +76,25 @@ const Content: React.FC = () => {
       enabled: sessionData?.user !== undefined && selectedTopic !== null,
     }
   );
+  const { data: noteCount } = api.note.getCount.useQuery(
+    {
+      topicId: selectedTopic?.id ?? "",
+    },
+    {
+      enabled: sessionData?.user !== undefined && selectedTopic !== null,
+    }
+  );
+
+  const randomNoteIndex = Math.floor(Math.random() * (noteCount || 0));
+  // NOTE: should I set the state default note here, before rendering?
 
   return (
     <div className="mx-5 mt-5 grid grid-cols-5 gap-2">
       <div className="col-span-2 px-2">
+        <div>
+          <h3>Decks</h3>
+        </div>
+
         <ul className="menu rounded-box w-56 bg-base-100 p-2">
           {topics?.map((topic) => (
             <li key={topic.id}>
@@ -89,7 +105,7 @@ const Content: React.FC = () => {
                   setSelectedTopic(topic);
                 }}
               >
-                {topic.title} (Pick Card) (Play All)
+                {topic.title} (Show One Card) (Play All)
               </a>
             </li>
           ))}
@@ -100,17 +116,44 @@ const Content: React.FC = () => {
         {selectedTopic && (
           <div className="flex flex-1">
             <div>
-              <span className="text-3xl">{selectedTopic.title}</span>
+              <span className="text-3xl italic">{selectedTopic.title}</span>
             </div>
           </div>
         )}
 
         <div>
-          {notes?.map((note) => (
+          {/* <div>
+            No list below here. Just show the one specific card that was picked
+            from the left side. Use NoteCard. Which card though? How will you
+            select it? Step 1: findFirst. Step 2: GetAll cards in the array,
+            UNLESS ANOTHER WAY TO KNOW HOW MANY THERE ARE FOR THIS DECK? Select
+            random by getting the total qty of cards, then picking a random
+            number between 0 and index-1 and selecting that card?? YEah just
+            them all, since you could also just do the same thing if you are
+            cycling through all of them for `PLAY ALL`
+            I could keep the entire list of notes, and make them all hidden, and
+            un-hide the one that I want...
+            generate random number (between what and what) map note only keep if
+            note index = the random number I got
+          </div> */}
+          {/* <div>randomNoteIndex: {randomNoteIndex} </div> */}
+          {/* Next: Get a link in the left column to trigger showing this one random card in the right column. */}
+          <p className="text-gray-400">
+            There are {noteCount} Cards in this Deck. Here is one of them:
+          </p>
+          {notes?.map((note, index) => {
+            if (index == randomNoteIndex)
+              return (
+                <div key={note.id} className="mt-5 text-2xl">
+                  {note.title}
+                </div>
+              );
+          })}
+          {/* {notes?.map((note) => (
             <div key={note.id} className="mt-5">
               {note.title}
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </div>
