@@ -122,12 +122,12 @@ const AuthShowcase: React.FC = () => {
           </dialog>
         </>
       )}{" "}
-      <p className="text-center text-2xl text-white">
-        {sessionData && (
+      {sessionData && (
+        <p className="text-center text-2xl text-white">
           <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
-        )}
-        {secretMessage && <span> - {secretMessage}</span>}
-      </p>
+        </p>
+      )}
+      {secretMessage && <span> - {secretMessage}</span>}
       {sessionData && (
         <div className="flex flex-col items-center justify-center gap-4">
           <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
