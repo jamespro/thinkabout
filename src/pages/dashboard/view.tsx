@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 
 import { api, type RouterOutputs } from "~/utils/api";
 import { DashboardHeader } from "~/components/DashboardHeader";
-import { NoteCard } from "~/components/NoteCard";
+// import { NoteCard } from "~/components/NoteCard";
 
 const ViewTopicsPage: NextPage = () => {
   return (
@@ -30,28 +30,28 @@ export default ViewTopicsPage;
 type Topic = RouterOutputs["topic"]["getAll"][0];
 type Note = RouterOutputs["note"]["getAll"][0];
 
-const something = () => {
-  return (
-    <>
-      <div>List of Decks</div>
-      <ul>
-        <li>
-          Deck title{" "}
-          <ul>
-            <li>
-              Button/Icon: show one card (pick one card): it will show on this
-              screen on the right in the body of the page
-            </li>
-            <li>
-              Button/Icon: auto-play this deck (pick one card then it refreshes
-              every 21 minutes) This will also show on this page, on the right
-            </li>
-          </ul>{" "}
-        </li>
-      </ul>
-    </>
-  );
-};
+// const something = () => {
+//   return (
+//     <>
+//       <div>List of Decks</div>
+//       <ul>
+//         <li>
+//           Deck title{" "}
+//           <ul>
+//             <li>
+//               Button/Icon: show one card (pick one card): it will show on this
+//               screen on the right in the body of the page
+//             </li>
+//             <li>
+//               Button/Icon: auto-play this deck (pick one card then it refreshes
+//               every 21 minutes) This will also show on this page, on the right
+//             </li>
+//           </ul>{" "}
+//         </li>
+//       </ul>
+//     </>
+//   );
+// };
 
 const Content: React.FC = () => {
   const { data: sessionData } = useSession();
