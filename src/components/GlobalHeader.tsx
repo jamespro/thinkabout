@@ -4,7 +4,7 @@ import Link from "next/link";
 interface ChildComponentProps {
   headerText?: string;
 }
-export const GlobalHeader: React.FC<ChildComponentProps> = ({ headerText }) => {
+export const GlobalHeader: React.FC<ChildComponentProps> = ({}) => {
   const { data: sessionData } = useSession();
 
   return (
