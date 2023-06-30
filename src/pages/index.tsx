@@ -194,7 +194,7 @@ const strategies = [
 ];
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "!" });
+  // const hello = api.example.hello.useQuery({ text: "!" });
 
   function draw() {
     const random = Math.floor(Math.random() * (strategies.length + 1));

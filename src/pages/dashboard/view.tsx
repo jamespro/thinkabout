@@ -28,7 +28,7 @@ const ViewTopicsPage: NextPage = () => {
 export default ViewTopicsPage;
 
 type Topic = RouterOutputs["topic"]["getAll"][0];
-type Note = RouterOutputs["note"]["getAll"][0];
+// type Note = RouterOutputs["note"]["getAll"][0];
 
 // const something = () => {
 //   return (
@@ -57,18 +57,16 @@ const Content: React.FC = () => {
   const { data: sessionData } = useSession();
 
   const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  const [selectedCard, setSelectedCard] = useState<Note | null>(null);
+  // const [selectedCard, setSelectedCard] = useState<Note | null>(null);
 
-  const { data: topics, refetch: refetchTopics } = api.topic.getAll.useQuery<
-    Topic[]
-  >(undefined, {
+  const { data: topics } = api.topic.getAll.useQuery<Topic[]>(undefined, {
     enabled: sessionData?.user !== undefined,
     onSuccess: (data: Topic[] | undefined) => {
       setSelectedTopic(selectedTopic ?? data?.[0] ?? null);
     },
   });
 
-  const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
+  const { data: notes } = api.note.getAll.useQuery(
     {
       topicId: selectedTopic?.id ?? "",
     },
