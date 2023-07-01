@@ -26,7 +26,7 @@ declare global {
 const DefaultCard: React.FC = () => {
   const [card, setCard] = useState<string>("");
   // NOTE: If you think the oblique data could be updated at some point, use state for it. Otherwise if it is static, don't need to use state.
-  const [oblique, setOblique] = useState<string[]>(obliqueData as string[]);
+  const [oblique, setOblique] = useState<string[]>(obliqueData);
 
   const draw = useCallback(() => {
     const random = Math.floor(Math.random() * oblique.length);
