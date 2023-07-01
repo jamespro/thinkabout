@@ -1,4 +1,3 @@
-import { useState, useEffect, useCallback } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,7 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { GlobalHeader } from "~/components/GlobalHeader";
-import obliqueData from "~/obliqueData.json";
+import { DefaultCard } from "../components/DefaultCard";
 //FYI: This is for the modal.
 /* 
 - The TypeScript error is because TypeScript is not aware of the `my_modal_2` property on the `window` object. TypeScript thinks that the `window` object is of type `Window & typeof globalThis`, and `my_modal_2` is not a known property on that type.
@@ -22,34 +21,6 @@ declare global {
     };
   }
 }
-
-const DefaultCard: React.FC = () => {
-  const [card, setCard] = useState<string>("");
-  // NOTE: If you think the oblique data could be updated at some point, use state for it. Otherwise if it is static, don't need to use state.
-  const [oblique, setOblique] = useState<string[]>(obliqueData);
-
-  const draw = useCallback(() => {
-    const random = Math.floor(Math.random() * oblique.length);
-    setCard(oblique[random] || "Try again");
-  }, [oblique]);
-
-  useEffect(() => {
-    draw(); // Call draw on initial render
-  }, [draw]);
-
-  return (
-    <div className="flex flex-col items-center gap-12">
-      <h3 className="font-extrabold tracking-tight text-[hsl(280,100%,70%)] sm:text-[2.5rem]">
-        {card}
-      </h3>
-      <button className="btn" onClick={draw}>
-        Draw a card
-      </button>
-    </div>
-  );
-};
-
-// export default DefaultCard;
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "!" });
@@ -104,10 +75,6 @@ const Home: NextPage = () => {
                         productivity, or just reminders to stretch-- it&lsquo;s
                         all up to you!
                       </p>
-                      <p>
-                        (There will be a demo here, but right now this takes you
-                        to your main page.)
-                      </p>
                     </div>
                   </Link>
                   <Link
@@ -116,11 +83,8 @@ const Home: NextPage = () => {
                   >
                     <h3 className="text-2xl font-bold">How does it work?</h3>
                     <div className="text-lg">
-                      <p>Log in, then manage your own Categories and Cards.</p>
-                      <p>
-                        (An FAQ will be here, but right now this takes you to
-                        your main page.)
-                      </p>
+                      <p>Log in, then manage your own Decks of Cards.</p>
+                      <p>Go to Dashboard ➡️</p>
                     </div>
                   </Link>
                 </div>

@@ -68,7 +68,7 @@ const Home: NextPage = () => {
             >
               <h3 className="text-2xl font-bold">How does it work?</h3>
               <div className="text-lg">
-                <p>Log in, then manage your own Categories and Cards.</p>
+                <p>Log in, then manage your own Decks and Cards.</p>
                 <p>
                   (An FAQ will be here, but right now this takes you to your
                   main page.)
