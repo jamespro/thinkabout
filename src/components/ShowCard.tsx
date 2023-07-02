@@ -1,44 +1,41 @@
 import { useSession } from "next-auth/react";
 import { useState, useEffect, useCallback } from "react";
-import deckData from "~/obliqueData.json";
 import { api } from "~/utils/api";
-// TODO: now make this use the user data
-// NOTE: Need user data / session
 
-export const DefaultCard: React.FC = () => {
+export const ShowCard: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: defaultTopic } = api.topic.getDefault.useQuery(
+  //TODO: Actually want the user's settings "default" deck, not just "findFirst". When do we change this to the "currentDeck"?
+  const { data: defaultDeck } = api.topic.getDefault.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultNote } = api.note.getOne.useQuery(
+  const { data: defaultCard } = api.note.getOne.useQuery(
     {
-      topicId: defaultTopic?.id || "",
+      topicId: defaultDeck?.id || "",
     },
     { enabled: sessionData?.user !== undefined }
   );
 
   //NOTE: Only need text string? Need id? Need deck id? Need deck displayName? Start with just text string like sample data. Is that a different query? Or just refine it after getting? Or I just change where it is deconstructed?
-  const { data: deckNotes } = api.note.getAll.useQuery(
+
+  const { data: cardsData } = api.note.getAll.useQuery(
     {
-      topicId: defaultTopic?.id || "",
+      topicId: defaultDeck?.id || "",
     },
     { enabled: sessionData?.user !== undefined }
   );
-  // const newDeckData = deckNotes?.map((item) => item.title);
-
-  // console.log(newDeckData);
 
   const [card, setCard] = useState<string>("");
   const [deck, setDeck] = useState<string[]>([]);
+
   useEffect(() => {
-    if (deckNotes) {
-      const newDeckData = deckNotes.map((item) => item.title);
-      setDeck(newDeckData);
+    if (cardsData) {
+      const cardsTitles = cardsData.map((item) => item.title);
+      setDeck(cardsTitles);
     }
-  }, [deckNotes]);
+  }, [cardsData]);
 
   // Will want to update the state of the current deck, when click button with deck name / id
 

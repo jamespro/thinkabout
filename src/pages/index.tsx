@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { GlobalHeader } from "~/components/GlobalHeader";
 import { ObliqueCard } from "../components/ObliqueCard";
-import { DefaultCard } from "~/components/DefaultCard";
+import { ShowCard } from "~/components/ShowCard";
 //FYI: This is for the modal.
 /* 
 - The TypeScript error is because TypeScript is not aware of the `my_modal_2` property on the `window` object. TypeScript thinks that the `window` object is of type `Window & typeof globalThis`, and `my_modal_2` is not a known property on that type.
@@ -128,7 +128,7 @@ const AuthShowcase: React.FC = () => {
           <h1 className="text-white">Create your own custom cards!</h1>
         </>
       )}
-      {sessionData && defaultNote && <DefaultCard />}
+      {sessionData && defaultNote && <ShowCard />}
       {sessionData && defaultNote && (
         <>
           <button className="btn" onClick={() => window.my_modal_2.showModal()}>
