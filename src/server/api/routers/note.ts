@@ -11,11 +11,22 @@ export const noteRouter = createTRPCRouter({
         },
       });
     }),
-
+  /*
+  // previous attempt to get a random row with Postgres raw query
+  //  import type { Note } from "@prisma/client";
+      const randomNote = await ctx.prisma.$queryRaw<Note[]>`
+        SELECT *
+        FROM Note
+        WHERE topicId = ${input.topicId}
+        ORDER BY random()
+        LIMIT 1;
+      `;
+      return randomNote[0] as Note;
+*/
+  //TODO: could have this find a random one?
   getOne: protectedProcedure
     .input(z.object({ topicId: z.string() }))
     .query(({ ctx, input }) => {
-      //TODO: could have this find a random one?
       return ctx.prisma.note.findFirst({
         where: {
           topicId: input.topicId,
