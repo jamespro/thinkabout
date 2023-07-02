@@ -11,12 +11,13 @@ export const ShowCard: React.FC = () => {
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultCard } = api.note.getOne.useQuery(
-    {
-      topicId: defaultDeck?.id || "",
-    },
-    { enabled: sessionData?.user !== undefined }
-  );
+  //NOTE: Not currently using "getOne" because getting all and picking one
+  // const { data: defaultCard } = api.note.getOne.useQuery(
+  //   {
+  //     topicId: defaultDeck?.id || "",
+  //   },
+  //   { enabled: sessionData?.user !== undefined }
+  // );
 
   //NOTE: Only need text string? Need id? Need deck id? Need deck displayName? Start with just text string like sample data. Is that a different query? Or just refine it after getting? Or I just change where it is deconstructed?
 
