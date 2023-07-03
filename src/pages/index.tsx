@@ -7,21 +7,6 @@ import { api } from "~/utils/api";
 import { GlobalHeader } from "~/components/GlobalHeader";
 import { ObliqueCard } from "../components/ObliqueCard";
 import { ShowCard } from "~/components/ShowCard";
-//FYI: This is for the modal.
-/* 
-- The TypeScript error is because TypeScript is not aware of the `my_modal_2` property on the `window` object. TypeScript thinks that the `window` object is of type `Window & typeof globalThis`, and `my_modal_2` is not a known property on that type.
-- To solve this: extend the `Window` interface with custom properties. Use declaration merging. Now TypeScript knows about window.my_modal_2
-- `my_modal_2` is defined as an object with a `showModal` method that returns `void`. Change it if it should return something else.
-- Note: the `declare global` syntax is needed because the `Window` interface is declared in the global scope. If you don't include `declare global`, TypeScript will think you're trying to declare a new local interface, which isn't what you want.
-(The ESLint warnings were because of the TypeScript error.)
-*/
-declare global {
-  interface Window {
-    my_modal_2: {
-      showModal: () => void;
-    };
-  }
-}
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "!" });
@@ -58,6 +43,7 @@ const Home: NextPage = () => {
             <AuthShowcase />
           </div>
           <div>
+            zz{" "}
             <div tabIndex={0} className="collapse bg-base-200">
               <div className="collapse-title text-xl font-medium">
                 What is this?
@@ -129,25 +115,6 @@ const AuthShowcase: React.FC = () => {
         </>
       )}
       {sessionData && defaultNote && <ShowCard />}
-      {sessionData && defaultNote && (
-        <>
-          <button className="btn" onClick={() => window.my_modal_2.showModal()}>
-            Show me a Card
-          </button>
-          <dialog id="my_modal_2" className="modal">
-            <form method="dialog" className="modal-box">
-              <button className="btn-ghost btn-sm btn-circle btn absolute right-2 top-2">
-                ✕
-              </button>{" "}
-              {defaultTopic && <p className="py-4">{defaultTopic.title}</p>}
-              <h3 className="text-lg font-bold">{defaultNote.title}</h3>
-            </form>
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
-        </>
-      )}{" "}
       {secretMessage && <span> - {secretMessage}</span>}
       {sessionData && (
         <div className="flex flex-col items-center justify-center gap-4">
