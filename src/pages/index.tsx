@@ -1,6 +1,5 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
@@ -8,21 +7,10 @@ import { GlobalHeader } from "~/components/GlobalHeader";
 import { ObliqueCard } from "../components/ObliqueCard";
 import { ShowCard } from "~/components/ShowCard";
 import { AboutContent } from "../components/AboutContent";
+import { UserLinks } from "../components/UserLinks";
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "!" });
-
-  //NOTE: For the default card, this way kinda worked, until I made it into a component:
-  // function getRandomOblique(oblique: string[]): string {
-  //   const randomIndex = Math.floor(Math.random() * oblique.length);
-  //   return oblique[randomIndex] || "Try again";
-  // }
-
-  // function draw() {
-  //   setCard(getRandomOblique(oblique));
-  // }
-
-  // const [card, setCard] = useState<string>(() => getRandomOblique(oblique));
 
   return (
     <>
@@ -83,34 +71,20 @@ const AuthShowcase: React.FC = () => {
       )}
       {sessionData && defaultNote && <ShowCard />}
       {secretMessage && <span> - {secretMessage}</span>}
-      {sessionData && (
-        <div className="flex flex-col items-center justify-center gap-4">
+      {sessionData && <UserLinks />}
+      <div className="flex flex-col items-center justify-center gap-4">
+        {sessionData && (
           <p className="text-center text-2xl text-white">
             <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
           </p>
-          <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard">Go to your Dashboard →</Link>
-          </button>
-          <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/manage">Manage Decks →</Link>
-          </button>
-          <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/view">View Cards →</Link>
-          </button>
-          <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/view/random">Show me a Card →</Link>
-          </button>
-          <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-            <Link href="dashboard/view/play">Play my default Deck →</Link>
-          </button>
-        </div>
-      )}
-      <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-        onClick={sessionData ? () => void signOut() : () => void signIn()}
-      >
-        {sessionData ? "Sign out" : "Sign in to make your own!"}
-      </button>
+        )}
+        <button
+          className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+          onClick={sessionData ? () => void signOut() : () => void signIn()}
+        >
+          {sessionData ? "Sign out" : "Sign in to make your own!"}
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,18 @@
 import { useState, useEffect, useCallback } from "react";
 import obliqueData from "~/obliqueData.json";
 
+//NOTE: For the default card, this way kinda worked, until I made it into a component:
+// function getRandomOblique(oblique: string[]): string {
+//   const randomIndex = Math.floor(Math.random() * oblique.length);
+//   return oblique[randomIndex] || "Try again";
+// }
+
+// function draw() {
+//   setCard(getRandomOblique(oblique));
+// }
+
+// const [card, setCard] = useState<string>(() => getRandomOblique(oblique));
+
 export const ObliqueCard: React.FC = () => {
   const [card, setCard] = useState<string>("");
   // NOTE: If you think the oblique data could be updated at some point, use state for it. Otherwise if it is static, don't need to use state.
