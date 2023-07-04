@@ -6,10 +6,10 @@ export const ShowCard: React.FC = () => {
   const { data: sessionData } = useSession();
 
   //TODO: Actually want the user's settings "default" deck, not just "findFirst". When do we change this to the "currentDeck"?
-  const { data: defaultDeckId } = api.topic.getDefaultDeckId.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+  // const { data: defaultDeckId } = api.topic.getDefaultDeckId.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined }
+  // );
 
   // const { data: defaultDeckData } = api.topic.getDeckData.useQuery(
   //   {
