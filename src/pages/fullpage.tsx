@@ -92,7 +92,7 @@ const AuthShowcase: React.FC = () => {
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultDeck } = api.deck.getDefault.useQuery(
+  const { data: defaultDeck } = api.deck.getDefaultDeck.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );

@@ -18,12 +18,12 @@ export const ShowCard: React.FC = () => {
   //   { enabled: defaultDeckId.id !== undefined }
   // );
 
-  const { data: allDecks } = api.deck.getAll.useQuery(
+  const { data: allDecks } = api.deck.getAllDecks.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultDeck } = api.deck.getDefault.useQuery(
+  const { data: defaultDeck } = api.deck.getDefaultDeck.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
@@ -47,21 +47,21 @@ export const ShowCard: React.FC = () => {
 
   const [card, setCard] = useState<string>("");
   // const [deckId, setDeckId] = useState<string>(defaultDeckId);
-  const [deck, setDeck] = useState<string[]>([]);
+  const [deckData, setDeckData] = useState<string[]>([]);
 
   useEffect(() => {
     if (cardsData) {
       const cardsTitles = cardsData.map((item) => item.title);
-      setDeck(cardsTitles);
+      setDeckData(cardsTitles);
     }
   }, [cardsData]);
 
   // Will want to update the state of the current deck, when click button with deck name / id
 
   const draw = useCallback(() => {
-    const random = Math.floor(Math.random() * deck.length);
-    setCard(deck[random] || "Try again");
-  }, [deck]);
+    const random = Math.floor(Math.random() * deckData.length);
+    setCard(deckData[random] || "Try again");
+  }, [deckData]);
 
   useEffect(() => {
     draw(); // Call draw on initial render

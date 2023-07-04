@@ -19,7 +19,7 @@ declare global {
 export const CardModal: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: defaultDeck } = api.deck.getDefault.useQuery(undefined, {
+  const { data: defaultDeck } = api.deck.getDefaultDeck.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
   });
 

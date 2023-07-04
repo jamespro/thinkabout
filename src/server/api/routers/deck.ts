@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const deckRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(({ ctx }) => {
+  getAllDecks: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.deck.findMany({
       where: {
         userId: ctx.session?.user.id,
@@ -40,7 +40,7 @@ export const deckRouter = createTRPCRouter({
     });
   }),
 
-  getDefault: protectedProcedure.query(({ ctx }) => {
+  getDefaultDeck: protectedProcedure.query(({ ctx }) => {
     //TODO: replace this with "find the default deck for this user"
     //TODO: need User model to have a "default" field? as a "setting" -- or a new model "settings" and there is only one settings record for each user
     //TODO: need a way for the user to select which deck is their default

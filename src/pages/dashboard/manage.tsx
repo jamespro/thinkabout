@@ -29,14 +29,14 @@ const Manage: NextPage = () => {
 
 export default Manage;
 
-type Deck = RouterOutputs["deck"]["getAll"][0];
+type Deck = RouterOutputs["deck"]["getAllDecks"][0];
 
 const Content: React.FC = () => {
   const { data: sessionData } = useSession();
 
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
 
-  const { data: decks, refetch: refetchDecks } = api.deck.getAll.useQuery<
+  const { data: decks, refetch: refetchDecks } = api.deck.getAllDecks.useQuery<
     Deck[]
   >(undefined, {
     enabled: sessionData?.user !== undefined,

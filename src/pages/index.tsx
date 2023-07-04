@@ -51,7 +51,7 @@ const AuthShowcase: React.FC = () => {
 
   //TODO: Now this should go to user PREFs, check/update "currentDeck"
   //TODO: point to "getDefaultDeckData" instead
-  const { data: defaultDeck } = api.deck.getDefault.useQuery(
+  const { data: defaultDeck } = api.deck.getDefaultDeck.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );

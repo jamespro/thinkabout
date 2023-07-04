@@ -27,7 +27,7 @@ const ViewDecksPage: NextPage = () => {
 
 export default ViewDecksPage;
 
-type Deck = RouterOutputs["deck"]["getAll"][0];
+type Deck = RouterOutputs["deck"]["getAllDecks"][0];
 // type Card = RouterOutputs["card"]["getAll"][0];
 
 // const something = () => {
@@ -59,7 +59,7 @@ const Content: React.FC = () => {
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   // const [selectedCard, setSelectedCard] = useState<Card | null>(null);
 
-  const { data: decks } = api.deck.getAll.useQuery<Deck[]>(undefined, {
+  const { data: decks } = api.deck.getAllDecks.useQuery<Deck[]>(undefined, {
     enabled: sessionData?.user !== undefined,
     onSuccess: (data: Deck[] | undefined) => {
       setSelectedDeck(selectedDeck ?? data?.[0] ?? null);
