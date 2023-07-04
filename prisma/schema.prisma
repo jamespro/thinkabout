@@ -58,6 +58,25 @@ model User {
     accounts      Account[]
     sessions      Session[]
     topics        Topic[]
+    prefs         Pref[]
+}
+
+model Pref {
+    id          String   @id @default(cuid())
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String   @unique
+    currentDeck String?
+    defaultDeck String?
+    pref01      Boolean?
+    pref02      Boolean?
+    pref03      Boolean?
+    pref04      Boolean?
+    pref05      Boolean?
+    prefa       String?
+    prefb       String?
+    prefc       String?
+    prefd       String?
+    prefe       String?
 }
 
 model VerificationToken {
