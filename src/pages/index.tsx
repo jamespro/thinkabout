@@ -7,7 +7,8 @@ import { GlobalHeader } from "~/components/GlobalHeader";
 import { ObliqueCard } from "../components/ObliqueCard";
 import { ShowCard } from "~/components/ShowCard";
 import { AboutContent } from "../components/AboutContent";
-import { UserLinks } from "../components/UserLinks";
+import { UserHomeLinks } from "../components/UserHomeLinks";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "!" });
@@ -48,6 +49,8 @@ const AuthShowcase: React.FC = () => {
     { enabled: sessionData?.user !== undefined }
   );
 
+  //TODO: Now this should go to user PREFs, check/update "currentDeck"
+  //TODO: point to "getDefaultDeckData" instead
   const { data: defaultTopic } = api.topic.getDefault.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
@@ -71,13 +74,17 @@ const AuthShowcase: React.FC = () => {
       )}
       {sessionData && defaultNote && <ShowCard />}
       {secretMessage && <span> - {secretMessage}</span>}
-      {sessionData && <UserLinks />}
+
+      {/* {sessionData && <UserHomeLinks />} */}
       <div className="flex flex-col items-center justify-center gap-4">
         {sessionData && (
           <p className="text-center text-2xl text-white">
             <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
           </p>
         )}
+        <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
+          <Link href="dashboard">Go to your Dashboard →</Link>
+        </button>
         <button
           className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
           onClick={sessionData ? () => void signOut() : () => void signIn()}

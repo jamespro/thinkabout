@@ -10,6 +10,36 @@ export const topicRouter = createTRPCRouter({
     });
   }),
 
+  //This should be going to the user PREFS to get the currentDeck, and maybe currentDeck goes into useContext or at least at top level
+  getDefaultDeckId: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.topic.findFirst({
+      where: {
+        userId: ctx.session?.user.id,
+      },
+      select: {
+        id: true,
+      },
+    });
+  }),
+
+  getDeckData: protectedProcedure
+    .input(z.object({ topicId: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.topic.findUnique({
+        where: {
+          id: input.topicId,
+        },
+      });
+    }),
+
+  getDefaultDeckData: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.topic.findFirst({
+      where: {
+        userId: ctx.session?.user.id,
+      },
+    });
+  }),
+
   getDefault: protectedProcedure.query(({ ctx }) => {
     //TODO: replace this with "find the default topic for this user"
     //TODO: need User model to have a "default" field? as a "setting" -- or a new model "settings" and there is only one settings record for each user

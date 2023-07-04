@@ -21,11 +21,11 @@ const Profile: NextPage = () => {
       <main>
         <div className="m-6">
           <ul>
-            <li>
+            {/* <li>
               <Link href="dashboard/view" className="underline">
                 View Cards
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link href="dashboard/manage" className="underline">
                 Manage Cards

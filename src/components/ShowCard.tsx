@@ -6,6 +6,23 @@ export const ShowCard: React.FC = () => {
   const { data: sessionData } = useSession();
 
   //TODO: Actually want the user's settings "default" deck, not just "findFirst". When do we change this to the "currentDeck"?
+  const { data: defaultDeckId } = api.topic.getDefaultDeckId.useQuery(
+    undefined, // no input
+    { enabled: sessionData?.user !== undefined }
+  );
+
+  // const { data: defaultDeckData } = api.topic.getDeckData.useQuery(
+  //   {
+  //     topicId: defaultDeckId.id || "",
+  //   },
+  //   { enabled: defaultDeckId.id !== undefined }
+  // );
+
+  const { data: allDecks } = api.topic.getAll.useQuery(
+    undefined, // no input
+    { enabled: sessionData?.user !== undefined }
+  );
+
   const { data: defaultDeck } = api.topic.getDefault.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
@@ -29,6 +46,7 @@ export const ShowCard: React.FC = () => {
   );
 
   const [card, setCard] = useState<string>("");
+  // const [deckId, setDeckId] = useState<string>(defaultDeckId);
   const [deck, setDeck] = useState<string[]>([]);
 
   useEffect(() => {
@@ -50,18 +68,51 @@ export const ShowCard: React.FC = () => {
   }, [draw]);
 
   return (
-    <div className="flex flex-col items-center gap-12">
-      <h3 className="font-extrabold tracking-tight text-[hsl(280,100%,70%)] sm:text-[2.5rem]">
-        {card}
-      </h3>
-      <button className="btn" onClick={draw}>
-        Draw a card
-      </button>
-      {/* {defaultDeck && (
+    <>
+      <div className="flex flex-col items-center gap-12">
+        <h3 className="font-extrabold tracking-tight text-[hsl(60,100%,75%)] sm:text-[2.5rem]">
+          {card}
+        </h3>
+        <button className="btn" onClick={draw}>
+          Draw a card
+        </button>
+        {/* {defaultDeck && (
         <button className="btn" onClick={setDeck(defaultDeck)}>
-          Update Deck
+        Update Deck
         </button>
       )} */}
-    </div>
+      </div>
+      {sessionData && allDecks && (
+        <div className="flex flex-col items-center justify-center gap-4">
+          {/* <div className="text-white">
+            note: when you click one of the decks, 
+            A) change your "current Deck" 
+            B) change user pref setting currentDeck needs to be updated. Also
+            C) the quote should change
+            IS THIS ALL THE SAME THING? one triggers the other?
+            - update "deck" in State
+            - triggers new draw
+            - triggers update pref?
+            or similarly
+            - update "deck" in pref
+            - triggers update "deck" in State
+            - triggers new card draw
+            <br>
+            todo: Make the defaultCard pull from the user currentDeck
+            <br>
+            Should I be putting the deck State.... index/top-level? ... or ShowCard and have Change Deck buttons below?
+            ... Context??
+          </div> */}
+          {allDecks.map((item) => (
+            <button
+              key={item.id}
+              className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+            >
+              {item.title} (ID: {item.id})
+            </button>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
