@@ -92,18 +92,18 @@ const AuthShowcase: React.FC = () => {
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultTopic } = api.topic.getDefault.useQuery(
+  const { data: defaultDeck } = api.deck.getDefault.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultNote } = api.note.getOne.useQuery({
-    topicId: defaultTopic?.id || "",
+  const { data: defaultCard } = api.card.getOne.useQuery({
+    deckId: defaultDeck?.id || "",
   });
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      {defaultNote && (
+      {defaultCard && (
         <>
           <button className="btn" onClick={() => window.my_modal_2.showModal()}>
             Show me a Card
@@ -113,8 +113,8 @@ const AuthShowcase: React.FC = () => {
               <button className="btn-ghost btn-sm btn-circle btn absolute right-2 top-2">
                 ✕
               </button>{" "}
-              {defaultTopic && <p className="py-4">{defaultTopic.title}</p>}
-              <h3 className="text-lg font-bold">{defaultNote.title}</h3>
+              {defaultDeck && <p className="py-4">{defaultDeck.title}</p>}
+              <h3 className="text-lg font-bold">{defaultCard.title}</h3>
             </form>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

@@ -1,59 +1,59 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
-export const noteRouter = createTRPCRouter({
+export const cardRouter = createTRPCRouter({
   getAll: protectedProcedure
-    .input(z.object({ topicId: z.string() }))
+    .input(z.object({ deckId: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.prisma.note.findMany({
+      return ctx.prisma.card.findMany({
         where: {
-          topicId: input.topicId,
+          deckId: input.deckId,
         },
       });
     }),
   /*
   // previous attempt to get a random row with Postgres raw query
-  //  import type { Note } from "@prisma/client";
-      const randomNote = await ctx.prisma.$queryRaw<Note[]>`
+  //  import type { Card } from "@prisma/client";
+      const randomCard = await ctx.prisma.$queryRaw<Card[]>`
         SELECT *
-        FROM Note
-        WHERE topicId = ${input.topicId}
+        FROM Card
+        WHERE deckId = ${input.deckId}
         ORDER BY random()
         LIMIT 1;
       `;
-      return randomNote[0] as Note;
+      return randomCard[0] as Card;
 */
   //TODO: could have this find a random one?
   getOne: protectedProcedure
-    .input(z.object({ topicId: z.string() }))
+    .input(z.object({ deckId: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.prisma.note.findFirst({
+      return ctx.prisma.card.findFirst({
         where: {
-          topicId: input.topicId,
+          deckId: input.deckId,
         },
       });
     }),
 
   getCount: protectedProcedure
-    .input(z.object({ topicId: z.string() }))
+    .input(z.object({ deckId: z.string() }))
     .query(({ ctx, input }) => {
-      return ctx.prisma.note.count({
+      return ctx.prisma.card.count({
         where: {
-          topicId: input.topicId,
+          deckId: input.deckId,
         },
       });
     }),
 
   create: protectedProcedure
     .input(
-      z.object({ title: z.string(), content: z.string(), topicId: z.string() })
+      z.object({ title: z.string(), content: z.string(), deckId: z.string() })
     )
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.note.create({
+      return ctx.prisma.card.create({
         data: {
           title: input.title,
           content: input.content,
-          topicId: input.topicId,
+          deckId: input.deckId,
         },
       });
     }),
@@ -61,7 +61,7 @@ export const noteRouter = createTRPCRouter({
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(({ ctx, input }) => {
-      return ctx.prisma.note.delete({
+      return ctx.prisma.card.delete({
         where: {
           id: input.id,
         },

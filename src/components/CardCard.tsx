@@ -4,13 +4,13 @@ import ReactMarkdown from "react-markdown";
 
 import { type RouterOutputs } from "~/utils/api";
 
-type Note = RouterOutputs["note"]["getAll"][0];
+type Card = RouterOutputs["card"]["getAll"][0];
 
-export const NoteCard = ({
-  note,
+export const CardCard = ({
+  card,
   onDelete,
 }: {
-  note: Note;
+  card: Card;
   onDelete: () => void;
 }) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(true);
@@ -24,16 +24,16 @@ export const NoteCard = ({
           } collapse`}
           onClick={() => setIsExpanded(!isExpanded)}
         >
-          <div className="collapse-title text-xl font-bold">{note.title}</div>
+          <div className="collapse-title text-xl font-bold">{card.title}</div>
           <div className="collapse-content">
             <article className="prose lg:prose-xl">
-              <ReactMarkdown>{note?.content || ""}</ReactMarkdown>
+              <ReactMarkdown>{card?.content || ""}</ReactMarkdown>
             </article>
           </div>
         </div>
         <div className="card-actions mx-2 flex justify-end">
-          {/* I want this to load the current note's title and contents in the NoteEditor in the page */}
-          {/* or it could load a new NoteEditor right in this component? */}
+          {/* I want this to load the current note's title and contents in the CardEditor in the page */}
+          {/* or it could load a new CardEditor right in this component? */}
           {/* or make an new component just for upsert and load that one right in this component?  */}
           {/* or load upsert component elsewhere on the page? */}
           {/* Or on a new separate Update page? */}

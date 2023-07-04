@@ -19,19 +19,19 @@ declare global {
 export const CardModal: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: defaultTopic } = api.topic.getDefault.useQuery(undefined, {
+  const { data: defaultDeck } = api.deck.getDefault.useQuery(undefined, {
     enabled: sessionData?.user !== undefined,
   });
 
-  const { data: defaultNote } = api.note.getOne.useQuery(
+  const { data: defaultCard } = api.card.getOne.useQuery(
     {
-      topicId: defaultTopic?.id || "",
+      deckId: defaultDeck?.id || "",
     },
     { enabled: sessionData?.user !== undefined }
   );
   return (
     <>
-      {defaultNote && (
+      {defaultCard && (
         <div>
           <button className="btn" onClick={() => window.my_modal_2.showModal()}>
             Show me a Card
@@ -41,8 +41,8 @@ export const CardModal: React.FC = () => {
               <button className="btn-ghost btn-sm btn-circle btn absolute right-2 top-2">
                 ✕
               </button>{" "}
-              {defaultTopic && <p className="py-4">{defaultTopic.title}</p>}
-              <h3 className="text-lg font-bold">{defaultNote.title}</h3>
+              {defaultDeck && <p className="py-4">{defaultDeck.title}</p>}
+              <h3 className="text-lg font-bold">{defaultCard.title}</h3>
             </form>
             <form method="dialog" className="modal-backdrop">
               <button>close</button>

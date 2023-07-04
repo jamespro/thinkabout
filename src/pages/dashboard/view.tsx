@@ -1,5 +1,5 @@
 //temporarily here and we will move it later
-//view notes of a topic
+//view cards of a deck
 import { useState } from "react";
 import { type NextPage } from "next";
 import Head from "next/head";
@@ -7,9 +7,9 @@ import { useSession } from "next-auth/react";
 
 import { api, type RouterOutputs } from "~/utils/api";
 import { DashboardHeader } from "~/components/DashboardHeader";
-// import { NoteCard } from "~/components/NoteCard";
+// import { CardCard } from "~/components/CardCard";
 
-const ViewTopicsPage: NextPage = () => {
+const ViewDecksPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -25,10 +25,10 @@ const ViewTopicsPage: NextPage = () => {
   );
 };
 
-export default ViewTopicsPage;
+export default ViewDecksPage;
 
-type Topic = RouterOutputs["topic"]["getAll"][0];
-// type Note = RouterOutputs["note"]["getAll"][0];
+type Deck = RouterOutputs["deck"]["getAll"][0];
+// type Card = RouterOutputs["card"]["getAll"][0];
 
 // const something = () => {
 //   return (
@@ -56,34 +56,34 @@ type Topic = RouterOutputs["topic"]["getAll"][0];
 const Content: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
-  // const [selectedCard, setSelectedCard] = useState<Note | null>(null);
+  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
+  // const [selectedCard, setSelectedCard] = useState<Card | null>(null);
 
-  const { data: topics } = api.topic.getAll.useQuery<Topic[]>(undefined, {
+  const { data: decks } = api.deck.getAll.useQuery<Deck[]>(undefined, {
     enabled: sessionData?.user !== undefined,
-    onSuccess: (data: Topic[] | undefined) => {
-      setSelectedTopic(selectedTopic ?? data?.[0] ?? null);
+    onSuccess: (data: Deck[] | undefined) => {
+      setSelectedDeck(selectedDeck ?? data?.[0] ?? null);
     },
   });
 
-  const { data: notes } = api.note.getAll.useQuery(
+  const { data: cards } = api.card.getAll.useQuery(
     {
-      topicId: selectedTopic?.id ?? "",
+      deckId: selectedDeck?.id ?? "",
     },
     {
-      enabled: sessionData?.user !== undefined && selectedTopic !== null,
+      enabled: sessionData?.user !== undefined && selectedDeck !== null,
     }
   );
-  const { data: noteCount } = api.note.getCount.useQuery(
+  const { data: cardCount } = api.card.getCount.useQuery(
     {
-      topicId: selectedTopic?.id ?? "",
+      deckId: selectedDeck?.id ?? "",
     },
     {
-      enabled: sessionData?.user !== undefined && selectedTopic !== null,
+      enabled: sessionData?.user !== undefined && selectedDeck !== null,
     }
   );
 
-  const randomNoteIndex = Math.floor(Math.random() * (noteCount || 0));
+  const randomCardIndex = Math.floor(Math.random() * (noteCount || 0));
   // NOTE: should I set the state default note here, before rendering?
 
   return (
@@ -94,16 +94,16 @@ const Content: React.FC = () => {
         </div>
 
         <ul className="menu rounded-box w-56 bg-base-100 p-2">
-          {topics?.map((topic) => (
-            <li key={topic.id}>
+          {decks?.map((deck) => (
+            <li key={deck.id}>
               <a
                 href="#"
                 onClick={(evt) => {
                   evt.preventDefault();
-                  setSelectedTopic(topic);
+                  setSelectedDeck(deck);
                 }}
               >
-                {topic.title} (Show One Card) (Play All)
+                {deck.title} (Show One Card) (Play All)
               </a>
             </li>
           ))}
@@ -111,10 +111,10 @@ const Content: React.FC = () => {
         <div className="divider"></div>
       </div>
       <div className="col-span-3">
-        {selectedTopic && (
+        {selectedDeck && (
           <div className="flex flex-1">
             <div>
-              <span className="text-3xl italic">{selectedTopic.title}</span>
+              <span className="text-3xl italic">{selectedDeck.title}</span>
             </div>
           </div>
         )}
@@ -137,19 +137,19 @@ const Content: React.FC = () => {
           {/* <div>randomNoteIndex: {randomNoteIndex} </div> */}
           {/* Next: Get a link in the left column to trigger showing this one random card in the right column. */}
           <p className="text-gray-400">
-            There are {noteCount} Cards in this Deck. Here is one of them:
+            There are {cardCount} Cards in this Deck. Here is one of them:
           </p>
-          {notes?.map((note, index) => {
-            if (index == randomNoteIndex)
+          {cards?.map((card, index) => {
+            if (index == randomCardIndex)
               return (
-                <div key={note.id} className="mt-5 text-2xl">
-                  {note.title}
+                <div key={card.id} className="mt-5 text-2xl">
+                  {card.title}
                 </div>
               );
           })}
-          {/* {notes?.map((note) => (
-            <div key={note.id} className="mt-5">
-              {note.title}
+          {/* {cards?.map((card) => (
+            <div key={card.id} className="mt-5">
+              {card.title}
             </div>
           ))} */}
         </div>

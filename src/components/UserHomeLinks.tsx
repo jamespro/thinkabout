@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+//TODO: map!! are you getting the data from props, or is it already here? or ctx?
 export const UserHomeLinks: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">

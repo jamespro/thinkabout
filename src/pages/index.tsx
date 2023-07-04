@@ -51,14 +51,14 @@ const AuthShowcase: React.FC = () => {
 
   //TODO: Now this should go to user PREFs, check/update "currentDeck"
   //TODO: point to "getDefaultDeckData" instead
-  const { data: defaultTopic } = api.topic.getDefault.useQuery(
+  const { data: defaultDeck } = api.deck.getDefault.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
 
-  const { data: defaultNote } = api.note.getOne.useQuery(
+  const { data: defaultCard } = api.card.getOne.useQuery(
     {
-      topicId: defaultTopic?.id || "",
+      deckId: defaultDeck?.id || "",
     },
     { enabled: sessionData?.user !== undefined }
   );
@@ -66,13 +66,13 @@ const AuthShowcase: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       {!sessionData && <ObliqueCard />}
-      {sessionData && !defaultNote && (
+      {sessionData && !defaultCard && (
         <>
           <ObliqueCard />
           <h1 className="text-white">Create your own custom cards!</h1>
         </>
       )}
-      {sessionData && defaultNote && <ShowCard />}
+      {sessionData && defaultCard && <ShowCard />}
       {secretMessage && <span> - {secretMessage}</span>}
 
       {/* {sessionData && <UserHomeLinks />} */}

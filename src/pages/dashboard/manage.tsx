@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 
 import { api, type RouterOutputs } from "~/utils/api";
 import { DashboardHeader } from "~/components/DashboardHeader";
-import { NoteEditor } from "~/components/NoteEditor";
-import { NoteCard } from "~/components/NoteCard";
+import { CardEditor } from "~/components/CardEditor";
+import { CardCard } from "~/components/CardCard";
 
 const Manage: NextPage = () => {
   return (
@@ -29,52 +29,52 @@ const Manage: NextPage = () => {
 
 export default Manage;
 
-type Topic = RouterOutputs["topic"]["getAll"][0];
+type Deck = RouterOutputs["deck"]["getAll"][0];
 
 const Content: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const [selectedTopic, setSelectedTopic] = useState<Topic | null>(null);
+  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
 
-  const { data: topics, refetch: refetchTopics } = api.topic.getAll.useQuery<
-    Topic[]
+  const { data: decks, refetch: refetchDecks } = api.deck.getAll.useQuery<
+    Deck[]
   >(undefined, {
     enabled: sessionData?.user !== undefined,
-    onSuccess: (data: Topic[] | undefined) => {
-      setSelectedTopic(selectedTopic ?? data?.[0] ?? null);
+    onSuccess: (data: Deck[] | undefined) => {
+      setSelectedDeck(selectedDeck ?? data?.[0] ?? null);
     },
   });
 
-  const createTopic = api.topic.create.useMutation({
+  const createDeck = api.deck.create.useMutation({
     onSuccess: () => {
-      void refetchTopics();
+      void refetchDecks();
     },
   });
 
-  const deleteTopic = api.topic.delete.useMutation({
+  const deleteDeck = api.deck.delete.useMutation({
     onSuccess: () => {
-      void refetchTopics();
+      void refetchDecks();
     },
   });
 
-  const { data: notes, refetch: refetchNotes } = api.note.getAll.useQuery(
+  const { data: cards, refetch: refetchCards } = api.card.getAll.useQuery(
     {
-      topicId: selectedTopic?.id ?? "",
+      deckId: selectedDeck?.id ?? "",
     },
     {
-      enabled: sessionData?.user !== undefined && selectedTopic !== null,
+      enabled: sessionData?.user !== undefined && selectedDeck !== null,
     }
   );
 
-  const createNote = api.note.create.useMutation({
+  const createCard = api.card.create.useMutation({
     onSuccess: () => {
-      void refetchNotes();
+      void refetchCards();
     },
   });
 
-  const deleteNote = api.note.delete.useMutation({
+  const deleteCard = api.card.delete.useMutation({
     onSuccess: () => {
-      void refetchNotes();
+      void refetchCards();
     },
   });
 
@@ -82,16 +82,16 @@ const Content: React.FC = () => {
     <div className="mx-5 mt-5 grid grid-cols-4 gap-2">
       <div className="px-2">
         <ul className="menu rounded-box w-56 bg-base-100 p-2">
-          {topics?.map((topic) => (
-            <li key={topic.id}>
+          {decks?.map((deck) => (
+            <li key={deck.id}>
               <a
                 href="#"
                 onClick={(evt) => {
                   evt.preventDefault();
-                  setSelectedTopic(topic);
+                  setSelectedDeck(deck);
                 }}
               >
-                {topic.title}
+                {deck.title}
               </a>
             </li>
           ))}
@@ -103,7 +103,7 @@ const Content: React.FC = () => {
           className="input-bordered input input-sm w-full"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              createTopic.mutate({
+              createDeck.mutate({
                 title: e.currentTarget.value,
               });
               e.currentTarget.value = "";
@@ -112,18 +112,18 @@ const Content: React.FC = () => {
         />
       </div>
       <div className="col-span-3">
-        {selectedTopic && (
+        {selectedDeck && (
           <div className="flex flex-1">
             <div>
-              <span className="text-3xl">{selectedTopic.title}</span>
+              <span className="text-3xl">{selectedDeck.title}</span>
             </div>
-            {!notes?.length && (
+            {!cards?.length && (
               <div
                 className="ml-20 text-right text-sm text-red-600"
                 onClick={() => {
-                  void deleteTopic.mutate({ id: selectedTopic.id });
+                  void deleteDeck.mutate({ id: selectedDeck.id });
                   //I think this worked to reset the content of the page after you delete
-                  setSelectedTopic(null);
+                  setSelectedDeck(null);
                 }}
               >
                 ❌
@@ -133,23 +133,23 @@ const Content: React.FC = () => {
         )}
 
         <div>
-          {notes?.map((note) => (
-            <div key={note.id} className="mt-5">
-              <NoteCard
-                note={note}
-                onDelete={() => void deleteNote.mutate({ id: note.id })}
+          {cards?.map((card) => (
+            <div key={card.id} className="mt-5">
+              <CardCard
+                card={card}
+                onDelete={() => void deleteCard.mutate({ id: card.id })}
               />
             </div>
           ))}
         </div>
 
-        <NoteEditor
-          // NOTE: Should I just change createNote to do an "upsert" so I can use it for update also?
+        <CardEditor
+          // NOTE: Should I just change createCard to do an "upsert" so I can use it for update also?
           onSave={({ title, content }) => {
-            void createNote.mutate({
+            void createCard.mutate({
               title,
               content,
-              topicId: selectedTopic?.id ?? "",
+              deckId: selectedDeck?.id ?? "",
             });
           }}
         />
