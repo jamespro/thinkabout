@@ -83,7 +83,7 @@ const Content: React.FC = () => {
     }
   );
 
-  const randomCardIndex = Math.floor(Math.random() * (noteCount || 0));
+  const randomCardIndex = Math.floor(Math.random() * (cardCount || 0));
   // NOTE: should I set the state default note here, before rendering?
 
   return (
