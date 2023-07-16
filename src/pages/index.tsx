@@ -7,7 +7,7 @@ import { GlobalHeader } from "~/components/GlobalHeader";
 import { ObliqueCard } from "../components/ObliqueCard";
 import { ShowCard } from "~/components/ShowCard";
 import { AboutContent } from "../components/AboutContent";
-import { UserHomeLinks } from "../components/UserHomeLinks";
+// import { UserHomeLinks } from "../components/UserHomeLinks";
 import Link from "next/link";
 
 const Home: NextPage = () => {
