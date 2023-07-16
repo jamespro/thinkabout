@@ -9,6 +9,7 @@ import { ShowCard } from "~/components/ShowCard";
 import { AboutContent } from "../components/AboutContent";
 // import { UserHomeLinks } from "../components/UserHomeLinks";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "!" });
@@ -48,6 +49,12 @@ const AuthShowcase: React.FC = () => {
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
+  //NOTE: check for prefs. If no prefs, create default prefs. (I was able to put the creation into the tPRC procedure)
+
+  const { data: pref } = api.pref.getPref.useQuery(
+    undefined, // no input
+    { enabled: sessionData?.user !== undefined }
+  );
 
   //TODO: Now this should go to user PREFs, check/update "currentDeck"
   //TODO: point to "getDefaultDeckData" instead
@@ -81,6 +88,19 @@ const AuthShowcase: React.FC = () => {
           <p className="text-center text-2xl text-white">
             <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
           </p>
+        )}
+        {sessionData && pref && (
+          <div>
+            <p className="text-center text-2xl text-white">
+              Your prefs include:
+            </p>
+            <p className="text-center text-2xl text-white">
+              defaultDeck: {pref.defaultDeck || `set this up`}
+            </p>
+            <p className="text-center text-2xl text-white">
+              currentDeck: {pref.currentDeck || `set this up`}
+            </p>
+          </div>
         )}
         <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
           <Link href="dashboard">Go to your Dashboard →</Link>
