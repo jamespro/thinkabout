@@ -4,10 +4,14 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 import { GlobalHeader } from "~/components/GlobalHeader";
+import { GlobalFooter } from "~/components/GlobalFooter";
 import { ObliqueCard } from "../components/ObliqueCard";
 import { ShowCard } from "~/components/ShowCard";
 import { AboutContent } from "../components/AboutContent";
-// import { UserHomeLinks } from "../components/UserHomeLinks";
+import { UserHomeLinks } from "../components/UserHomeLinks";
+import { UserDecks } from "../components/UserDecks";
+import { UserPrefs } from "../components/UserPrefs";
+import { DebugInfo } from "../components/DebugInfo";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -36,6 +40,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
+      <GlobalFooter footerText={""} />
     </>
   );
 };
@@ -82,36 +87,9 @@ const AuthShowcase: React.FC = () => {
       {sessionData && defaultCard && <ShowCard />}
       {secretMessage && <span> - {secretMessage}</span>}
 
-      {/* {sessionData && <UserHomeLinks />} */}
-      <div className="flex flex-col items-center justify-center gap-4">
-        {sessionData && (
-          <p className="text-center text-2xl text-white">
-            <span>You&lsquo;re logged in as {sessionData.user?.name}</span>
-          </p>
-        )}
-        {sessionData && pref && (
-          <div>
-            <p className="text-center text-2xl text-white">
-              Your prefs include:
-            </p>
-            <p className="text-center text-2xl text-white">
-              defaultDeck: {pref.defaultDeck || `set this up`}
-            </p>
-            <p className="text-center text-2xl text-white">
-              currentDeck: {pref.currentDeck || `set this up`}
-            </p>
-          </div>
-        )}
-        <button className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20">
-          <Link href="dashboard">Go to your Dashboard →</Link>
-        </button>
-        <button
-          className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-          onClick={sessionData ? () => void signOut() : () => void signIn()}
-        >
-          {sessionData ? "Sign out" : "Sign in to make your own!"}
-        </button>
-      </div>
+      {sessionData && <UserDecks />}
+      {sessionData && <UserPrefs />}
+      {sessionData && <DebugInfo />}
     </div>
   );
 };
