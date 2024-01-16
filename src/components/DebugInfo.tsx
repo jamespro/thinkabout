@@ -11,19 +11,25 @@ export const DebugInfo: React.FC = () => {
     undefined, // no input
     { enabled: sessionData?.user !== undefined }
   );
+  const showDebugInfo = false;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2 bg-purple-800 p-2 sm:text-[0.5rem]">
-      <p className="text-primary-content sm:text-[1.25rem]">DEBUG INFO</p>
+    <>
+      {showDebugInfo && (
+        <div className="flex flex-col items-center justify-center gap-2 bg-purple-800 p-2 sm:text-[0.5rem]">
+          <p className="text-primary-content sm:text-[1.25rem]">DEBUG INFO</p>
 
-      {sessionData && !getPref && <p>YOU NEED PREFS</p>}
-      {sessionData && getPref && (
-        <div className="text-white">
-          <p className="text-white">YOU HAVE PREFS</p>
-          <div>{getPref.currentDeck}</div>
+          {sessionData && !getPref && <p>YOU NEED PREFS</p>}
+          {sessionData && getPref && (
+            <div className="text-white">
+              <p className="text-white">YOU HAVE PREFS</p>
+              <div>{getPref.currentDeck}</div>
+              <div>pref01: {getPref.pref01}</div>
+            </div>
+          )}
+          {sessionData && <UserPrefs />}
         </div>
       )}
-      {sessionData && <UserPrefs />}
-    </div>
+    </>
   );
 };
