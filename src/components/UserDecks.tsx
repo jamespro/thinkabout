@@ -1,6 +1,5 @@
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
-import Link from "next/link";
 
 //TODO: map!! are you getting the data from props, or is it already here? or ctx?
 export const UserDecks: React.FC = () => {
@@ -14,9 +13,7 @@ export const UserDecks: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <h3 className="tracking-tight text-[hsl(105,100%,75%)] sm:text-[2.5rem]">
-        Your Decks
-      </h3>
+      <p className="text-primary-content sm:text-[1.25rem]">YOUR DECKS</p>
       {sessionData && allDecks && (
         <div className="flex flex-col items-center justify-center gap-4">
           {/* <div className="text-white">

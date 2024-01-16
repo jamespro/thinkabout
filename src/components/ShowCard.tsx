@@ -67,12 +67,12 @@ export const ShowCard: React.FC = () => {
     draw(); // Call draw on initial render
   }, [draw]);
 
-  const { data: getPref } = api.pref.getPref.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+  // const { data: getPref } = api.pref.getPref.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined }
+  // );
 
-  const updateCurrentDeck = api.pref.updateCurrentDeck.useMutation({});
+  // const updateCurrentDeck = api.pref.updateCurrentDeck.useMutation({});
 
   return (
     <>

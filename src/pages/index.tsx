@@ -3,17 +3,13 @@ import Head from "next/head";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
-import { GlobalHeader } from "~/components/GlobalHeader";
-import { GlobalFooter } from "~/components/GlobalFooter";
-import { ObliqueCard } from "../components/ObliqueCard";
+import { ObliqueCard } from "~/components/ObliqueCard";
 import { ShowCard } from "~/components/ShowCard";
-import { AboutContent } from "../components/AboutContent";
-import { UserHomeLinks } from "../components/UserHomeLinks";
-import { UserDecks } from "../components/UserDecks";
-import { UserPrefs } from "../components/UserPrefs";
-import { DebugInfo } from "../components/DebugInfo";
+import { AboutContent } from "~/components/AboutContent";
+import { UserDecks } from "~/components/UserDecks";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Layout from "~/components/Layout";
 
 const Home: NextPage = () => {
   // const hello = api.example.hello.useQuery({ text: "!" });
@@ -28,8 +24,7 @@ const Home: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <GlobalHeader headerText={"thinkabout"} />
-      <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
+      <Layout headerText="thinkabout" footerText="">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
           <div className="flex flex-col items-center gap-12">
             {/* <p className="text-2xl text-white">
@@ -39,8 +34,7 @@ const Home: NextPage = () => {
             <AboutContent />
           </div>
         </div>
-      </main>
-      <GlobalFooter footerText={""} />
+      </Layout>
     </>
   );
 };
@@ -88,8 +82,6 @@ const AuthShowcase: React.FC = () => {
       {secretMessage && <span> - {secretMessage}</span>}
 
       {sessionData && <UserDecks />}
-      {sessionData && <UserPrefs />}
-      {sessionData && <DebugInfo />}
     </div>
   );
 };
