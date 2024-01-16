@@ -27,14 +27,14 @@ export const GlobalHeader: React.FC<ChildComponentProps> = ({}) => {
                 <div></div>
               )}
               <div className="mr-2 font-bold">
-                <Link href="/">
+                <Link href="dashboard">
                   {sessionData?.user?.name ? `${sessionData.user.name}` : ""}
                 </Link>
               </div>
               {sessionData?.user ? (
                 <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
                   <div className="w-10 rounded-full">
-                    <Link href="/">
+                    <Link href="dashboard">
                       <img
                         src={sessionData?.user?.image ?? ""}
                         alt={sessionData?.user?.name ?? ""}

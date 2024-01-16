@@ -67,12 +67,12 @@ export const ShowCard: React.FC = () => {
     draw(); // Call draw on initial render
   }, [draw]);
 
-  const { data: getPref } = api.pref.getPref.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined }
-  );
+  // const { data: getPref } = api.pref.getPref.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined }
+  // );
 
-  const updateCurrentDeck = api.pref.updateCurrentDeck.useMutation({});
+  // const updateCurrentDeck = api.pref.updateCurrentDeck.useMutation({});
 
   return (
     <>
@@ -89,13 +89,6 @@ export const ShowCard: React.FC = () => {
         </button>
       )} */}
       </div>
-      {sessionData && !getPref && <h1>YOU NEED PREFS</h1>}
-      {sessionData && getPref && (
-        <div className="text-white">
-          <h1 className="text-white">YOU HAVE PREFS</h1>
-          <div>{getPref.currentDeck}</div>
-        </div>
-      )}
       {sessionData && allDecks && (
         <div className="flex flex-col items-center justify-center gap-4">
           {/* <div className="text-white">
@@ -117,17 +110,18 @@ export const ShowCard: React.FC = () => {
             Should I be putting the deck State.... index/top-level? ... or ShowCard and have Change Deck buttons below?
             ... Context??
           </div> */}
-          {allDecks.map((item) => (
+          {/* {allDecks.map((item) => (
             <button
               key={item.id}
+              title={item.id}
               className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
               onClick={() => {
                 void updateCurrentDeck.mutate({ currentDeck: item.id });
               }}
             >
-              {item.title} (ID: {item.id})
+              Switch to {item.title}
             </button>
-          ))}
+          ))} */}
         </div>
       )}
     </>
